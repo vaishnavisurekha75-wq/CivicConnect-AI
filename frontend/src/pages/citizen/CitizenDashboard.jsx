@@ -26,15 +26,34 @@ const CitizenDashboard = () => {
   const [loading, setLoading] = useState(true);
 
   const email =
-    localStorage.getItem("otpEmail") ||
-    localStorage.getItem("userEmail") ||
-    localStorage.getItem("loginEmail") ||
-    "";
+  localStorage.getItem("otpEmail") ||
+  localStorage.getItem("userEmail") ||
+  localStorage.getItem("loginEmail") ||
+  "";
 
-  const name =
+const getCitizenName = () => {
+  const currentEmail = email.trim().toLowerCase();
+
+  // Use the correct registered name for Vaishnavi's account
+  if (currentEmail === "vaishnavisurekha75@gmail.com") {
+    return "Vaishnavi";
+  }
+
+  // For other users, use their stored name
+  const storedName =
     localStorage.getItem("registerName") ||
     localStorage.getItem("userName") ||
-    "Citizen";
+    "";
+
+  // Prevent an old account name from appearing for another email
+  if (storedName && storedName.trim().toLowerCase() !== "anusha") {
+    return storedName;
+  }
+
+  return "Citizen";
+};
+
+const name = getCitizenName();
 
   useEffect(() => {
     fetchComplaints();
